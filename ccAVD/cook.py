@@ -1,5 +1,6 @@
 from ccAVD.cut import Cut
 from ccAVD.tools import smart_update
+import yaml
 
 class Cook(Cut):
 
@@ -8,6 +9,8 @@ class Cook(Cut):
         self.avd_leaf_uplinks()  # build AVD var for uplinks between leafs and spines
         self.convert_vrfs_vlans()  # convert vrf and vlan CSVs to a format easy to process in J2 template
         self.endpoints()  # convert endpoints
+        # write files
+        self.write_tenants_file()
 
     def avd_leaf_uplinks(self):
         # build AVD variables for uplinks between leafs and spines
@@ -167,3 +170,8 @@ class Cook(Cut):
                     })
                     
                 self.cookiecutter_vars['out']['endpoints'].update(avd_endpoints)
+
+    def write_tenants_file(self):
+        tenants_filename = ".cc/{{cookiecutter.in.avd.repo_name}}/group_vars/{{cookiecutter.in.avd.fabric_name}}_TENANTS.yml"
+        with open(tenants_filename, 'w') as f:
+            yaml.dump({'tenants': self.cookiecutter_vars['out']['tenants']}, f)
