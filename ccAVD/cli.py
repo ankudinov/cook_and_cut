@@ -1,11 +1,6 @@
 import argparse
 import argcomplete
-import json
-import yaml
-import csv
-import sys
-import os
-from cookiecutter.main import cookiecutter
+from ccAVD.cc import Cut, Cook
 
 
 def interpreter():
@@ -27,3 +22,6 @@ def interpreter():
     )
     argcomplete.autocomplete(parser)
     args = parser.parse_args()
+
+    cc = Cut(args.input_directory)
+    cc.cut(args.template_dir)
