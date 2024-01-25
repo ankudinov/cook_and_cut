@@ -70,6 +70,3 @@ class Cut:
         # run cookiecutter to build output data
         cookiecutter(cookiecutter_template_directory, no_input=True,
                     overwrite_if_exists=True, output_dir=cookiecutter_output_dir)
-        
-class Cook(Cut):
-    pass

@@ -1,6 +1,6 @@
 import argparse
 import argcomplete
-from ccAVD.cc import Cut, Cook
+from ccAVD.cook import Cook
 
 
 def interpreter():
@@ -23,5 +23,6 @@ def interpreter():
     argcomplete.autocomplete(parser)
     args = parser.parse_args()
 
-    cc = Cut(args.input_directory)
+    cc = Cook(args.input_directory)
+    cc.start()
     cc.cut(args.template_dir)
