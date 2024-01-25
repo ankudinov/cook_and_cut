@@ -120,6 +120,7 @@ class Cook(Cut):
             'endpoint': list()
         })
 
+        endpoints = dict()
         for endpoints_inventory in ['fabric_endpoints']:
             csv_entry_list = self.cookiecutter_vars['in'][endpoints_inventory]
             for csv_entry in csv_entry_list:
