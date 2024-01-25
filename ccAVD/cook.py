@@ -178,6 +178,6 @@ class Cook(Cut):
 
     def write_endpoint_files(self):
         for endpoints_key, endpoints in self.cookiecutter_vars['out']['endpoints'].items():
-            yaml_filename = os.getcwd() + f"/group_vars/{self.cookiecutter_vars['in']['avd']['fabric_name']}_ENDPOINTS/{endpoints_key}.yml"
+            yaml_filename = os.getcwd() + f"/{self.cookiecutter_vars['in']['avd']['repo_name']}/group_vars/{self.cookiecutter_vars['in']['avd']['fabric_name']}_ENDPOINTS/{endpoints_key}.yml"
             with open(yaml_filename, 'w') as f:
                 yaml.dump(endpoints, f)
