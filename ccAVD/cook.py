@@ -166,4 +166,4 @@ class Cook(Cut):
                         ]
                     })
                     
-            self.cookiecutter_vars['out']['endpoints'].append(avd_endpoints)
+                self.cookiecutter_vars['out']['endpoints'].append(avd_endpoints)
