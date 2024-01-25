@@ -117,7 +117,7 @@ class Cook(Cut):
         # build AVD endpoints
 
         self.cookiecutter_vars['out'].update({
-            'endpoints': list()
+            'endpoints': dict()
         })
 
         for csv_key, csv_entry_list in self.cookiecutter_vars['in'].items():
@@ -166,4 +166,4 @@ class Cook(Cut):
                         ]
                     })
                     
-                self.cookiecutter_vars['out']['endpoints'].append(avd_endpoints)
+                self.cookiecutter_vars['out']['endpoints'].update(avd_endpoints)
