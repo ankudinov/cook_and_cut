@@ -172,12 +172,18 @@ class Cook(Cut):
                 self.cookiecutter_vars['out']['endpoints'].update(avd_endpoints)
 
     def write_tenants_file(self):
-        tenants_filename = os.getcwd() + f"/{self.cookiecutter_vars['in']['avd']['repo_name']}/group_vars/{self.cookiecutter_vars['in']['avd']['fabric_name']}_TENANTS.yml"
+        dir_name = os.getcwd() + f"/{self.cookiecutter_vars['in']['avd']['repo_name']}/group_vars/"
+        if not os.path.exists(dir_name):
+            os.path.makedirs(dir_name)
+        tenants_filename = dir_name + f"{self.cookiecutter_vars['in']['avd']['fabric_name']}_TENANTS.yml"
         with open(tenants_filename, 'w') as f:
             yaml.dump({'tenants': self.cookiecutter_vars['out']['tenants']}, f)
 
     def write_endpoint_files(self):
+        dir_name = os.getcwd() + f"/{self.cookiecutter_vars['in']['avd']['repo_name']}/group_vars/{self.cookiecutter_vars['in']['avd']['fabric_name']}_ENDPOINTS/"
+        if not os.path.exists(dir_name):
+            os.path.makedirs(dir_name)
         for endpoints_key, endpoints in self.cookiecutter_vars['out']['endpoints'].items():
-            yaml_filename = os.getcwd() + f"/{self.cookiecutter_vars['in']['avd']['repo_name']}/group_vars/{self.cookiecutter_vars['in']['avd']['fabric_name']}_ENDPOINTS/{endpoints_key}.yml"
+            yaml_filename = dir_name + f"{endpoints_key}.yml"
             with open(yaml_filename, 'w') as f:
                 yaml.dump({endpoints_key: endpoints}, f)
