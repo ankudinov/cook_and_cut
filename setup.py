@@ -27,6 +27,8 @@ setup(
     include_package_data=True,
     install_requires=[
         "cookiecutter==2.5.0",
+        "argcomplete==3.2.2",
+        "PyYAML==6.0.1"
     ],
     entry_points = {
         "console_scripts": ['ccAVD = ccAVD.cli:interpreter']
