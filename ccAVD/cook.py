@@ -1,4 +1,4 @@
-from ccAVD.cook import Cut
+from ccAVD.cut import Cut
 from ccAVD.tools import smart_update
 
 class Cook(Cut):
