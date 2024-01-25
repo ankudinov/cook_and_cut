@@ -113,51 +113,51 @@ class Cook(Cut):
 
                 self.cookiecutter_vars['out']['tenants'].append(tenant_dict)
 
-def endpoints(self):
-    # build AVD endpoints
+    def endpoints(self):
+        # build AVD endpoints
 
-    self.cookiecutter_vars['out'].update({
-        'endpoint': list()
-    })
+        self.cookiecutter_vars['out'].update({
+            'endpoint': list()
+        })
 
-    for endpoints_inventory in ['fabric_endpoints']:
-        csv_entry_list = self.cookiecutter_vars['in'][endpoints_inventory]
-        for csv_entry in csv_entry_list:
-            server_name = csv_entry['server_name']
-            if server_name not in endpoints.keys():
-                endpoints.update({
-                    server_name: {
-                        'switch_ports': list(),
-                        'switches': list()
-                    }
+        for endpoints_inventory in ['fabric_endpoints']:
+            csv_entry_list = self.cookiecutter_vars['in'][endpoints_inventory]
+            for csv_entry in csv_entry_list:
+                server_name = csv_entry['server_name']
+                if server_name not in endpoints.keys():
+                    endpoints.update({
+                        server_name: {
+                            'switch_ports': list(),
+                            'switches': list()
+                        }
+                    })
+                endpoints[server_name]['switch_ports'].append(csv_entry['switch_port'])
+                endpoints[server_name]['switches'].append(csv_entry['switch_hostname'])
+                # find out if interface is in a port-channel
+                if csv_entry['port_channel_mode']:
+                    endpoints[server_name].update({
+                        "port_channel": {
+                            "mode": csv_entry['port_channel_mode']
+                        }
+                    })
+                # set other parameters
+                if csv_entry['switchport_mode']:
+                    endpoints[server_name].update({
+                        "mode": csv_entry['switchport_mode']
+                    })
+                if csv_entry['switchport_vlans']:
+                    endpoints[server_name].update({
+                        "vlans": csv_entry['switchport_vlans']
+                    })
+                if csv_entry['description']:
+                    endpoints[server_name].update({
+                        "description": csv_entry['description']
+                    })
+            # convert endpoints dict to AVD list
+            for server,adapters in endpoints.items():
+                self.cookiecutter_vars['out']['endpoints'].append({
+                    "name": server,
+                    "adapters": [
+                        adapters
+                    ]
                 })
-            endpoints[server_name]['switch_ports'].append(csv_entry['switch_port'])
-            endpoints[server_name]['switches'].append(csv_entry['switch_hostname'])
-            # find out if interface is in a port-channel
-            if csv_entry['port_channel_mode']:
-                endpoints[server_name].update({
-                    "port_channel": {
-                        "mode": csv_entry['port_channel_mode']
-                    }
-                })
-            # set other parameters
-            if csv_entry['switchport_mode']:
-                endpoints[server_name].update({
-                    "mode": csv_entry['switchport_mode']
-                })
-            if csv_entry['switchport_vlans']:
-                endpoints[server_name].update({
-                    "vlans": csv_entry['switchport_vlans']
-                })
-            if csv_entry['description']:
-                endpoints[server_name].update({
-                    "description": csv_entry['description']
-                })
-        # convert endpoints dict to AVD list
-        for server,adapters in endpoints.items():
-            self.cookiecutter_vars['out']['endpoints'].append({
-                "name": server,
-                "adapters": [
-                    adapters
-                ]
-            })
