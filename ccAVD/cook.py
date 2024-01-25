@@ -91,15 +91,14 @@ class Cook(Cut):
                     smart_update(vrf_dict, 'name', vrf_entry, 'ip_vrf_name', mandatory=True)
                     smart_update(vrf_dict, 'vrf_vni', vrf_entry, 'ip_vrf_vni', mandatory=True, convert_to='int')
                     if ('vrf_diagnostic_loopback_number' in vrf_entry.keys()) and ('vrf_diagnostic_loopback_ip_range' in vrf_entry.keys()):
-                        smart_update(vrf_dict, 'vtep_diagnostic.vrf_diagnostic_loopback_number', vrf_entry, 'vrf_diagnostic_loopback_number')
+                        smart_update(vrf_dict, 'vtep_diagnostic.loopback', vrf_entry, 'vrf_diagnostic_loopback_number')
                         smart_update(vrf_dict, 'vtep_diagnostic.loopback_ip_range', vrf_entry, 'vrf_diagnostic_loopback_ip_range')
 
                     for vlan_entry in self.cookiecutter_vars['in'][vlan_inventory]:
                         if (vlan_entry['ip_vrf'] == vrf_entry['ip_vrf_name']) and (vlan_entry['tenant_name'] == tenant_name):
-                            vlan_dict = {'enabled': 'true'}  # svi is enabled if defined in CSV
+                            vlan_dict = {'enabled': True}  # svi is enabled if defined in CSV
                             smart_update(vlan_dict, 'id', vlan_entry, 'vlan_number', mandatory=True, convert_to='int')
                             smart_update(vlan_dict, 'name', vlan_entry, 'vlan_name', mandatory=True)
-                            smart_update(vlan_dict, 'tags', vlan_entry, 'filter_tags')
                             smart_update(vlan_dict, 'ip_address_virtual', vlan_entry, 'ip_virtual_address_and_mask')
                             vrf_dict['svis'].append(vlan_dict)
 
@@ -111,7 +110,6 @@ class Cook(Cut):
                         if not vlan_entry['ip_vrf']:
                             smart_update(l2_vlan_dict, 'id', vlan_entry, 'vlan_number', mandatory=True, convert_to='int')
                             smart_update(l2_vlan_dict, 'name', vlan_entry, 'vlan_name', mandatory=True)
-                            smart_update(l2_vlan_dict, 'tags', vlan_entry, 'filter_tags')
                             tenant_dict['l2vlans'].append(l2_vlan_dict)
 
                 self.cookiecutter_vars['out']['tenants'].append(tenant_dict)
