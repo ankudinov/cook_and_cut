@@ -1,6 +1,7 @@
 from ccAVD.cut import Cut
 from ccAVD.tools import smart_update
 import yaml
+import os
 
 class Cook(Cut):
 
@@ -170,6 +171,12 @@ class Cook(Cut):
                 self.cookiecutter_vars['out']['endpoints'].update(avd_endpoints)
 
     def write_tenants_file(self):
-        tenants_filename = ".cc/{{cookiecutter.in.avd.repo_name}}/group_vars/{{cookiecutter.in.avd.fabric_name}}_TENANTS.yml"
+        tenants_filename = os.getcwd() + f"/{self.cookiecutter_vars['in']['avd']['repo_name']}/group_vars/{self.cookiecutter_vars['in']['avd']['fabric_name']}_TENANTS.yml"
         with open(tenants_filename, 'w') as f:
             yaml.dump({'tenants': self.cookiecutter_vars['out']['tenants']}, f)
+
+    def write_endpoint_files(self):
+        for endpoints_key, endpoints in self.cookiecutter_vars['out']['endpoints'].items():
+            yaml_filename = os.getcwd() + f"/group_vars/{self.cookiecutter_vars['in']['avd']['fabric_name']}_ENDPOINTS/{endpoints_key}.yml"
+            with open(yaml_filename, 'w') as f:
+                yaml.dump(endpoints, f)
