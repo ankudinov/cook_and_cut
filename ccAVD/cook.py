@@ -7,6 +7,7 @@ class Cook(Cut):
         # start all processing
         self.avd_leaf_uplinks()  # build AVD var for uplinks between leafs and spines
         self.convert_vrfs_vlans()  # convert vrf and vlan CSVs to a format easy to process in J2 template
+        self.endpoints()  # convert endpoints
 
     def avd_leaf_uplinks(self):
         # build AVD variables for uplinks between leafs and spines
