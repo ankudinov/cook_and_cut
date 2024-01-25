@@ -117,7 +117,7 @@ class Cook(Cut):
         # build AVD endpoints
 
         self.cookiecutter_vars['out'].update({
-            'endpoint': list()
+            'endpoints': list()
         })
 
         endpoints = dict()
